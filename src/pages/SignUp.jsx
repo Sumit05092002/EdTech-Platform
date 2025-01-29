@@ -26,7 +26,7 @@ function SignUp() {
     const navigate=useNavigate();
 
     async function signUpHandler(){
-        console.log("function called");
+        console.log(formData);
         const body={
             Email:formData.Email
         }
@@ -40,16 +40,14 @@ function SignUp() {
     }
 
     function submitData(){
-        setFormData((prev)=>{
-                const update={...prev,account_type:active}
-                console.log(update);
-                return update;
-        })
         signUpHandler();
     }
 
     useEffect(()=>{
-        submitData();
+        setFormData((prev)=>{
+            const update={...prev,account_type:active}
+            return update;
+    })
     },[active])
 
     

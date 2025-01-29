@@ -55,11 +55,11 @@ export default function Navbar() {
             }
         </ul>
         </div>
-        <div className='flex mx-[20px] gap-8 items-center'>
+        <div className='flex mx-[20px] gap-6 items-center'>
             {
                user&&user?.accountType!=="Instructor"&&(
                     <Link to={"/dashboard/cart"} className='relative'>
-                    <IoCartOutline  className='w-[50px] h-[50px] rounded-full bg-richblack-300' />
+                    <IoCartOutline  className='w-[35px] h-[35px] rounded-full bg-richblack-300' />
                     {
                         itemCount>0&&(
                             <span>
