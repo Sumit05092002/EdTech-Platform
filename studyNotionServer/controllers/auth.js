@@ -14,6 +14,7 @@ exports.signUp=async(req,res)=>{
     try {
         //fetch the necessary details from the body of the request
         const{FirstName,LastName,Email,Password,ConfirmPassword,accountType,otp}=req.body;
+        console.log(req.body);
         //verify the bad request
         if(!FirstName||!LastName||!Email||!Password||!ConfirmPassword||!accountType||!otp){
             return res.status(400).json({
@@ -25,6 +26,7 @@ exports.signUp=async(req,res)=>{
         
         //check if the password and confirm password match
         if(Password!==ConfirmPassword){
+            console.log("password not matching");
             return res.status(401).json({
                 success:false,
                 message:"Password and Confirm Password does not match"
@@ -48,6 +50,7 @@ exports.signUp=async(req,res)=>{
          }
          console.log(Otp.OTP);
          if(otp!==Otp.OTP){
+            console.log("otp did not match");
             return res.status(401).json({
                 success:false,
                 message:"OTP is invalid! Please try again later"

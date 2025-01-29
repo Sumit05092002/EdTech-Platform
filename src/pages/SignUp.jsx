@@ -7,13 +7,16 @@ import {apiConnector} from '../services/apiConnector'
 import {endPoints} from '../services/apis'
 import toast from 'react-hot-toast'
 import { useNavigate } from 'react-router-dom'
+import {setSignUpData} from '../slices/authSlice'
+import { useSelector } from 'react-redux'
+import { useDispatch } from 'react-redux'
 function SignUp() {
     const [active, setActive] = useState("Student");
     // useEffect(() => {
     //     console.log(active);
     // })
 
-    const [formData,setFormData]=useState({Firstname:"",Lastname:"",Email:"",Password:"",ConfirmPassword:"",account_type:""})
+    const [formData,setFormData]=useState({FirstName:"",LastName:"",Email:"",Password:"",ConfirmPassword:"",accountType:""})
 
     function changeHandler(event){
         setFormData((prev)=>{
@@ -24,6 +27,7 @@ function SignUp() {
     }
     
     const navigate=useNavigate();
+    const dispatch=useDispatch();
 
     async function signUpHandler(){
         console.log(formData);
@@ -33,7 +37,9 @@ function SignUp() {
         try {
             const response=await apiConnector("POST",endPoints.SENDOTP,body);
             toast.success("OTP sent successfully");
-            navigate("/email-verification")
+            dispatch(setSignUpData(formData));
+            navigate("/email-verification");
+            
         } catch (error) {
             toast.error(`${error.response.statusText}`)
         }
@@ -45,7 +51,7 @@ function SignUp() {
 
     useEffect(()=>{
         setFormData((prev)=>{
-            const update={...prev,account_type:active}
+            const update={...prev,accountType:active}
             return update;
     })
     },[active])
@@ -76,14 +82,14 @@ function SignUp() {
 
                                 <label >
                                     <p>Firstname <sup>*</sup> </p>
-                                    <input type="text" name='Firstname' placeholder='Enter your Firstname' className='text-black form-style pl-[20px]' onChange={changeHandler}/>
+                                    <input type="text" name='FirstName' placeholder='Enter your Firstname' className='text-black form-style pl-[20px]' onChange={changeHandler}/>
                                 </label>
                             
 
 
                                 <label >
                                     <p>Lastname <sup>*</sup></p>
-                                    <input type="text" name='Lastname' placeholder='Enter your Lastname' className='text-black pl-[20px]' onChange={changeHandler}/>
+                                    <input type="text" name='LastName' placeholder='Enter your Lastname' className='text-black pl-[20px]' onChange={changeHandler}/>
                                 </label>
                             </div>
                             <br />
@@ -95,7 +101,7 @@ function SignUp() {
                             </div>
                             
                             <br />
-                            <div className='flex gap-5'>
+                            <div className='flex gap-5 '>
                                 <label >
                                     <p>Password <sup>*</sup></p>
                                     <input type="text" name='Password' placeholder='Enter your Password' className='text-black pl-[20px]' onChange={changeHandler}/>
@@ -105,7 +111,7 @@ function SignUp() {
 
                                 <label>
                                     <p>Confirm Password <sup>*</sup></p>
-                                    <input type="text" name='Confirm Password' placeholder=' confirm Password' className='text-black pl-[20px]' onChange={changeHandler}/>
+                                    <input type="text" name='ConfirmPassword' placeholder=' confirm Password' className='text-black pl-[20px]' onChange={changeHandler}/>
                                 </label>
                             </div>
                             
