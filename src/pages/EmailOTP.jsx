@@ -28,6 +28,7 @@ export default function EmailOTP() {
             navigate("/login");
             dispatch(setSignUpData(null));
         } catch (error) {
+            navigate("/signUp")
             toast.error(`${error.response.statusText}`)
         }
         

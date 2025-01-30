@@ -20,8 +20,8 @@ exports.resetPasswordToken=async(req,res)=>{
         //Now insert the token in the user record with expiration time
         const updateUser=await User.findOneAndUpdate(
             {Email:Email},
-            {token:token},
-            {resetPassword:Date.now()+3600000},
+            {token:token,
+            resetPassword:Date.now()+3600000},
             {new:true}
         )
         //generate the link
@@ -76,8 +76,8 @@ exports.resetPassword=async(req,res)=>{
           const encryptedPassword=await bcrypt.hash(password,10);
           const updatedUser=await User.findOneAndUpdate(
             {token:token},
-            {password:encryptedPassword},
-            {ConfirmPassword:encryptedPassword},
+            {Password:encryptedPassword,
+            ConfirmPassword:encryptedPassword},
             {new:true}
           )
           res.status(200).json({

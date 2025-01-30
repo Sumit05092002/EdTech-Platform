@@ -6,6 +6,7 @@ import SignUp from "./pages/SignUp";
 import Login from "./pages/Login";
 import ResetPassword from "./pages/ResetPassword"
 import EmailOTP from "./pages/EmailOTP"
+import About from "./pages/About"
 function App() {
   return (
    <div className="w-screen min-h-screen bg-richblack-900 flex flex-col font-inter">
@@ -16,6 +17,7 @@ function App() {
       <Route path="/login" element={<Login></Login>}></Route>
       <Route path="/reset-password" element={<ResetPassword></ResetPassword>}></Route>
       <Route path="/email-verification" element={<EmailOTP></EmailOTP>}></Route>
+      <Route path="/about" element={<About></About>}></Route>
     </Routes>
    </div>
   );
