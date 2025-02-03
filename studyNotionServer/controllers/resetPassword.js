@@ -25,7 +25,7 @@ exports.resetPasswordToken=async(req,res)=>{
             {new:true}
         )
         //generate the link
-        const link=`https://studynotion-edtech-project.vercel.app/update-password/${token}`
+        const link=`http://localhost:3000/update-password/${token}`
         //Now mail the link to the user
         const sendMail=await mailSender(
             Email,

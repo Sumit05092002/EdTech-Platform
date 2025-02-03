@@ -2,35 +2,62 @@ import React from 'react'
 import { useState } from 'react'
 import CTAButton from '../components/core/HomePage/CTAButton';
 import { Link } from 'react-router-dom';
+import { apiConnector } from '../services/apiConnector';
+import {endPoints} from '../services/apis'
+import toast from 'react-hot-toast';
+import { useNavigate } from 'react-router-dom';
 function ResetPassword() {
     const [email, setEmail] = useState("");
+    const [emailSent, setEmailSent] = useState(false);
+    const navigate=useNavigate();
+    async function resetHandler(){
+        try {
+            const data={
+                Email:email
+            }
+            const response=await apiConnector("POST",endPoints.RESETPASSWORDTOKEN,data);
+            setEmailSent(true);
+            toast.success("Email sent successfully");
+        } catch (error) {
+            toast.error(`${error.response.statusText}`);
+            navigate("/login");
+
+        }
+    }
     function changeHandler(event) {
         setEmail(event.target.value);
     }
-    function submitHandler(){
-        console.log(email);
-    }
     return (
-        <div className='flex h-[500px] min-w-max justify-center items-center text-white'>
-            <div className='flex h-[350px] w-[500px] flex-col justify-around'>
-                <div className='text-3xl'>
-                    Reset Your Password
-                </div>
+        <div className='flex flex-col max-h-screen min-w-full justify-center items-center mt-[25px]'>
+            <div className='flex flex-col h-[300px] w-[500px] justify-around mt-[150px]'>
+                <h1 className='text-3xl text-white '>
+                    {
+                        !emailSent ? ("Reset Your Password") : ("Check your Email")
+                    }
+                </h1>
                 <div>
-                    <p className='text-lg'>Have no fear. We'll email you instructions to reset your password. If you dont have access to your email we can try account recovery</p>
+                    <p className='text-lg text-richblack-500 '>
+                        {!emailSent ? ("Have no fear. We'll email you instructions to reset your password. If you dont have access to your email we can try account recovery") : (`We have sent the reset email to ${email}`)}
+                    </p>
                 </div>
                 <div>
                     <form action="">
-                        <p>Email Address<sup>*</sup></p>
-                        
-                        <input type="text" name='Email' onChange={changeHandler} placeholder='Enter your Email' className='w-[450px] mt-[5px] pl-[20px]'/>
+                        {
+                            !emailSent ? (
+                                <div>
+                                    <label htmlFor=""><p className='text-white ml-[10px]'>Email <sup>*</sup></p></label>
+                                    <input type="text" name='Email' onChange={changeHandler} className='w-[400px] pl-[20px] mt-[5px]' placeholder='Enter your Email ' ></input>
+                                </div>) : (<div></div>)
+                        }
                     </form>
                 </div>
-                <div className='w-[450px]'>
-                    <CTAButton cl={true} txt={"Submit"} onClick={submitHandler}></CTAButton>
+                <div className='w-[400px]'>
+                    {
+                        !emailSent ? (<CTAButton cl={true} txt={"Reset Password"} onClick={resetHandler}></CTAButton>) : (<CTAButton cl={true} txt={"Resend Email"} onClick={resetHandler}></CTAButton>)
+                    }
+                <div>
+                    <Link to={"/login"}><p className='text-white ml-[10px]'>Back To Login</p></Link>
                 </div>
-                <div className='text-lg ml-[5px]'>
-                   <Link to={"/login"}><p>Back to Login</p></Link> 
                 </div>
             </div>
         </div>
