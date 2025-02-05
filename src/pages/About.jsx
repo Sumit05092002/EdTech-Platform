@@ -54,6 +54,13 @@ function About() {
                     
                 </div>
                 </div>
+                <div className='flex flex-col h-[400px] items-center text-white'>
+                    <h1>Get in Touch</h1>
+                    <p>We d love to hear from you,please fill out this form</p>
+                    <div>
+                        
+                    </div>
+                </div>
         </div>
     )
 }

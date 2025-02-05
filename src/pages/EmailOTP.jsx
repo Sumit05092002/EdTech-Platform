@@ -16,6 +16,7 @@ export default function EmailOTP() {
     const authData=useSelector((state)=>state.auth);
     const navigate=useNavigate()
     const dispatch=useDispatch();
+    console.log(authData.signUpData.Email);
    async function submitHandler(){
         const signupdata=authData.signUpData
         const OTP=Number(otp);
@@ -31,7 +32,19 @@ export default function EmailOTP() {
             navigate("/signUp")
             toast.error(`${error.response.statusText}`)
         }
+
         
+    }
+    async function sendOTP(){
+        try {
+            const data={
+                Email:authData.signUpData.Email
+            }
+            const response=await apiConnector("POST",endPoints.SENDOTP,data);
+            toast.success("OTP sent successfully");
+        } catch (error) {
+            toast.error("Error sending OTP");
+        }
     }
     return (
         <div className='flex h-[600px] min-w-full justify-center items-center text-white'>
@@ -51,7 +64,7 @@ export default function EmailOTP() {
                 </div>
                 <div className='flex justify-between'>
                     <Link to={"/signUp"}>Back to SignUp</Link>
-                    <Link className='text-blue-200'>Resend OTP</Link>
+                    <Link className='text-blue-200' onClick={sendOTP}>Resend OTP</Link>
                 </div>
             </div>
         </div>
